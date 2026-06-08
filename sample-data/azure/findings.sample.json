@@ -1,0 +1,25 @@
+{
+  "_note": "PLACEHOLDER synthetic data \u2014 not real findings.",
+  "source": "azure",
+  "subscription_id": "00000000-0000-0000-0000-000000000000",
+  "findings": [
+    {
+      "id": "az-0001",
+      "resource_type": "Microsoft.Storage/storageAccounts",
+      "resource": "/subscriptions/.../storageAccounts/examplesa",
+      "title": "Storage account allows public blob access",
+      "severity": "high",
+      "location": "eastus",
+      "first_seen": "2026-06-02T00:00:00Z"
+    },
+    {
+      "id": "az-0002",
+      "resource_type": "Microsoft.Network/networkSecurityGroups",
+      "resource": "/subscriptions/.../networkSecurityGroups/nsg-open",
+      "title": "NSG allows inbound 0.0.0.0/0 on port 3389 (RDP)",
+      "severity": "critical",
+      "location": "eastus",
+      "first_seen": "2026-06-03T00:00:00Z"
+    }
+  ]
+}

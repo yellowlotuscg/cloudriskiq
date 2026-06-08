@@ -1,0 +1,25 @@
+{
+  "_note": "PLACEHOLDER synthetic data \u2014 not real findings.",
+  "source": "github",
+  "org": "example-org",
+  "findings": [
+    {
+      "id": "gh-0001",
+      "repo": "example-org/web",
+      "type": "secret_scanning",
+      "title": "Committed AWS access key detected",
+      "severity": "critical",
+      "path": "config/old.env",
+      "first_seen": "2026-06-06T00:00:00Z"
+    },
+    {
+      "id": "gh-0002",
+      "repo": "example-org/api",
+      "type": "dependabot",
+      "title": "Vulnerable dependency: example-lib < 1.2.3",
+      "severity": "medium",
+      "ecosystem": "pip",
+      "first_seen": "2026-06-07T00:00:00Z"
+    }
+  ]
+}

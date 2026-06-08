@@ -1,0 +1,24 @@
+{
+  "_note": "PLACEHOLDER synthetic data \u2014 not real findings.",
+  "source": "endpoint",
+  "findings": [
+    {
+      "id": "ep-0001",
+      "hostname": "laptop-alice",
+      "os": "macOS 14.5",
+      "title": "Disk encryption (FileVault) disabled",
+      "severity": "high",
+      "agent": "example-edr",
+      "first_seen": "2026-06-04T00:00:00Z"
+    },
+    {
+      "id": "ep-0002",
+      "hostname": "srv-build-01",
+      "os": "Ubuntu 22.04",
+      "title": "Outdated OpenSSL with known CVE",
+      "severity": "medium",
+      "cve": "CVE-0000-00000",
+      "first_seen": "2026-06-05T00:00:00Z"
+    }
+  ]
+}

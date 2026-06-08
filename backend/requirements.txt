@@ -1,0 +1,13 @@
+# Core API
+fastapi==0.128.8
+uvicorn[standard]==0.34.0
+
+# Testing
+pytest==8.4.2
+httpx==0.28.1
+
+# Added later as features land (DB layer, migrations, etc.):
+# sqlalchemy==2.0.36
+# psycopg[binary]==3.2.3
+# alembic==1.14.0
+# pydantic-settings==2.7.0

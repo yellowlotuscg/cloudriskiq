@@ -1,0 +1,28 @@
+{
+  "_note": "PLACEHOLDER synthetic data \u2014 not real findings. Shape is illustrative and will be normalized by the AWS adapter in a later task.",
+  "source": "aws",
+  "account_id": "000000000000",
+  "findings": [
+    {
+      "id": "aws-0001",
+      "service": "s3",
+      "resource": "arn:aws:s3:::example-public-bucket",
+      "title": "S3 bucket allows public read",
+      "severity": "high",
+      "region": "us-east-1",
+      "first_seen": "2026-06-01T00:00:00Z",
+      "tags": {
+        "env": "dev"
+      }
+    },
+    {
+      "id": "aws-0002",
+      "service": "iam",
+      "resource": "arn:aws:iam::000000000000:user/legacy",
+      "title": "IAM user with stale access keys (>90 days)",
+      "severity": "medium",
+      "region": "global",
+      "first_seen": "2026-05-12T00:00:00Z"
+    }
+  ]
+}
