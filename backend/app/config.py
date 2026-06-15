@@ -19,6 +19,14 @@ class Settings:
         "DATABASE_URL", "postgresql://cloudriskiq:cloudriskiq@localhost:5432/cloudriskiq"
     )
     cors_origins: str = os.environ.get("CORS_ORIGINS", "http://localhost:3000")
+    # Where the (synthetic) source findings live. Defaults to the repo's
+    # sample-data/ so the app is fully runnable offline with no live cloud creds.
+    sample_data_dir: str = os.environ.get(
+        "SAMPLE_DATA_DIR",
+        os.path.abspath(
+            os.path.join(os.path.dirname(__file__), "..", "..", "sample-data")
+        ),
+    )
 
 
 settings = Settings()

@@ -1,5 +1,5 @@
 {
-  "_note": "PLACEHOLDER synthetic data \u2014 not real findings.",
+  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror GitHub secret-scanning / Dependabot / code-scanning alerts and are normalized by the GitHub adapter.",
   "source": "github",
   "org": "example-org",
   "findings": [
@@ -10,16 +10,42 @@
       "title": "Committed AWS access key detected",
       "severity": "critical",
       "path": "config/old.env",
-      "first_seen": "2026-06-06T00:00:00Z"
+      "public_repo": true,
+      "first_seen": "2026-06-06T00:00:00Z",
+      "topics": ["prod"]
     },
     {
       "id": "gh-0002",
       "repo": "example-org/api",
       "type": "dependabot",
-      "title": "Vulnerable dependency: example-lib < 1.2.3",
-      "severity": "medium",
+      "title": "Vulnerable dependency: example-lib < 1.2.3 (RCE)",
+      "severity": "high",
       "ecosystem": "pip",
-      "first_seen": "2026-06-07T00:00:00Z"
+      "cve": "CVE-2026-04567",
+      "public_repo": false,
+      "first_seen": "2026-05-15T00:00:00Z",
+      "topics": ["prod"]
+    },
+    {
+      "id": "gh-0003",
+      "repo": "example-org/api",
+      "type": "config",
+      "title": "Branch protection disabled on default branch",
+      "severity": "medium",
+      "public_repo": false,
+      "first_seen": "2026-04-28T00:00:00Z",
+      "topics": ["prod", "sox"]
+    },
+    {
+      "id": "gh-0004",
+      "repo": "example-org/infra",
+      "type": "code_scanning",
+      "title": "Workflow logs a secret in plaintext",
+      "severity": "high",
+      "path": ".github/workflows/deploy.yml",
+      "public_repo": false,
+      "first_seen": "2026-05-31T00:00:00Z",
+      "topics": ["prod"]
     }
   ]
 }

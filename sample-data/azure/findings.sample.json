@@ -1,25 +1,62 @@
 {
-  "_note": "PLACEHOLDER synthetic data \u2014 not real findings.",
+  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror Microsoft Defender for Cloud assessments and are normalized by the Azure adapter.",
   "source": "azure",
   "subscription_id": "00000000-0000-0000-0000-000000000000",
   "findings": [
     {
       "id": "az-0001",
       "resource_type": "Microsoft.Storage/storageAccounts",
-      "resource": "/subscriptions/.../storageAccounts/examplesa",
+      "resource": "/subscriptions/0000/resourceGroups/prod/providers/Microsoft.Storage/storageAccounts/acmeprodsa",
       "title": "Storage account allows public blob access",
       "severity": "high",
       "location": "eastus",
-      "first_seen": "2026-06-02T00:00:00Z"
+      "exposed_to_internet": true,
+      "first_seen": "2026-04-30T00:00:00Z",
+      "labels": { "env": "prod", "compliance": "pci" }
     },
     {
       "id": "az-0002",
       "resource_type": "Microsoft.Network/networkSecurityGroups",
-      "resource": "/subscriptions/.../networkSecurityGroups/nsg-open",
+      "resource": "/subscriptions/0000/resourceGroups/prod/providers/Microsoft.Network/networkSecurityGroups/nsg-jumpbox",
       "title": "NSG allows inbound 0.0.0.0/0 on port 3389 (RDP)",
       "severity": "critical",
       "location": "eastus",
-      "first_seen": "2026-06-03T00:00:00Z"
+      "exposed_to_internet": true,
+      "first_seen": "2026-06-03T00:00:00Z",
+      "labels": { "env": "prod" }
+    },
+    {
+      "id": "az-0003",
+      "resource_type": "Microsoft.Sql/servers/databases",
+      "resource": "/subscriptions/0000/resourceGroups/prod/providers/Microsoft.Sql/servers/acme/databases/billing",
+      "title": "SQL database Transparent Data Encryption (TDE) is disabled",
+      "severity": "high",
+      "location": "eastus",
+      "exposed_to_internet": false,
+      "first_seen": "2026-03-15T00:00:00Z",
+      "labels": { "env": "prod", "data_classification": "cardholder", "compliance": "pci,sox" }
+    },
+    {
+      "id": "az-0004",
+      "resource_type": "Microsoft.KeyVault/vaults",
+      "resource": "/subscriptions/0000/resourceGroups/prod/providers/Microsoft.KeyVault/vaults/acme-kv",
+      "title": "Key Vault soft-delete / purge protection is not enabled",
+      "severity": "medium",
+      "location": "eastus",
+      "exposed_to_internet": false,
+      "first_seen": "2026-05-22T00:00:00Z",
+      "labels": { "env": "prod", "compliance": "sox" }
+    },
+    {
+      "id": "az-0005",
+      "resource_type": "Microsoft.Compute/virtualMachines",
+      "resource": "/subscriptions/0000/resourceGroups/prod/providers/Microsoft.Compute/virtualMachines/vm-app-02",
+      "title": "VM has no diagnostic / activity logging configured",
+      "severity": "medium",
+      "location": "eastus",
+      "exposed_to_internet": false,
+      "first_seen": "2026-05-18T00:00:00Z",
+      "labels": { "env": "prod", "compliance": "fisma" }
     }
   ]
 }

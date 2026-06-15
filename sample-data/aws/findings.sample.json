@@ -1,28 +1,73 @@
 {
-  "_note": "PLACEHOLDER synthetic data \u2014 not real findings. Shape is illustrative and will be normalized by the AWS adapter in a later task.",
+  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror AWS Security Hub / Config-style output and are normalized by the AWS adapter.",
   "source": "aws",
   "account_id": "000000000000",
   "findings": [
     {
       "id": "aws-0001",
       "service": "s3",
-      "resource": "arn:aws:s3:::example-public-bucket",
+      "resource": "arn:aws:s3:::acme-prod-customer-exports",
       "title": "S3 bucket allows public read",
       "severity": "high",
       "region": "us-east-1",
-      "first_seen": "2026-06-01T00:00:00Z",
-      "tags": {
-        "env": "dev"
-      }
+      "public": true,
+      "first_seen": "2026-04-18T00:00:00Z",
+      "tags": { "env": "prod", "data_classification": "pii", "compliance": "pci,sox" }
     },
     {
       "id": "aws-0002",
       "service": "iam",
-      "resource": "arn:aws:iam::000000000000:user/legacy",
+      "resource": "arn:aws:iam::000000000000:user/legacy-batch",
       "title": "IAM user with stale access keys (>90 days)",
       "severity": "medium",
       "region": "global",
-      "first_seen": "2026-05-12T00:00:00Z"
+      "public": false,
+      "first_seen": "2026-03-02T00:00:00Z",
+      "tags": { "env": "prod", "compliance": "sox" }
+    },
+    {
+      "id": "aws-0003",
+      "service": "ec2",
+      "resource": "arn:aws:ec2:us-east-1:000000000000:security-group/sg-0ab12",
+      "title": "Security group allows 0.0.0.0/0 on port 22 (SSH)",
+      "severity": "high",
+      "region": "us-east-1",
+      "public": true,
+      "first_seen": "2026-05-29T00:00:00Z",
+      "tags": { "env": "prod" }
+    },
+    {
+      "id": "aws-0004",
+      "service": "rds",
+      "resource": "arn:aws:rds:us-east-1:000000000000:db:billing-primary",
+      "title": "RDS instance storage is not encrypted at rest",
+      "severity": "high",
+      "region": "us-east-1",
+      "public": false,
+      "first_seen": "2026-02-11T00:00:00Z",
+      "tags": { "env": "prod", "data_classification": "cardholder", "compliance": "pci,sox" }
+    },
+    {
+      "id": "aws-0005",
+      "service": "cloudtrail",
+      "resource": "arn:aws:cloudtrail:us-east-1:000000000000:trail/org-trail",
+      "title": "CloudTrail logging is disabled in one region",
+      "severity": "medium",
+      "region": "us-west-2",
+      "public": false,
+      "first_seen": "2026-05-20T00:00:00Z",
+      "tags": { "env": "prod", "compliance": "sox,fisma" }
+    },
+    {
+      "id": "aws-0006",
+      "service": "iam",
+      "resource": "arn:aws:iam::000000000000:root",
+      "title": "Root account has no MFA enabled",
+      "severity": "critical",
+      "region": "global",
+      "public": false,
+      "first_seen": "2026-06-09T00:00:00Z",
+      "tags": { "env": "prod", "compliance": "pci,sox,fisma" }
     }
   ]
 }

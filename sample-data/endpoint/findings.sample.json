@@ -1,5 +1,5 @@
 {
-  "_note": "PLACEHOLDER synthetic data \u2014 not real findings.",
+  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror EDR / device-posture agent output and are normalized by the endpoint adapter.",
   "source": "endpoint",
   "findings": [
     {
@@ -9,7 +9,9 @@
       "title": "Disk encryption (FileVault) disabled",
       "severity": "high",
       "agent": "example-edr",
-      "first_seen": "2026-06-04T00:00:00Z"
+      "internet_facing": false,
+      "first_seen": "2026-05-04T00:00:00Z",
+      "owner_group": "finance"
     },
     {
       "id": "ep-0002",
@@ -17,8 +19,33 @@
       "os": "Ubuntu 22.04",
       "title": "Outdated OpenSSL with known CVE",
       "severity": "medium",
-      "cve": "CVE-0000-00000",
-      "first_seen": "2026-06-05T00:00:00Z"
+      "agent": "example-edr",
+      "cve": "CVE-2026-01234",
+      "internet_facing": true,
+      "first_seen": "2026-05-09T00:00:00Z",
+      "owner_group": "platform"
+    },
+    {
+      "id": "ep-0003",
+      "hostname": "laptop-bob",
+      "os": "Windows 11",
+      "title": "Endpoint protection (EDR) agent not running",
+      "severity": "high",
+      "agent": "example-edr",
+      "internet_facing": false,
+      "first_seen": "2026-04-25T00:00:00Z",
+      "owner_group": "engineering"
+    },
+    {
+      "id": "ep-0004",
+      "hostname": "srv-jump-01",
+      "os": "Windows Server 2022",
+      "title": "Unexpected local administrator account present",
+      "severity": "medium",
+      "agent": "example-edr",
+      "internet_facing": true,
+      "first_seen": "2026-05-27T00:00:00Z",
+      "owner_group": "platform"
     }
   ]
 }
