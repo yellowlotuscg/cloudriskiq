@@ -7,8 +7,8 @@ the severity base score and adjusts it by the context the adapters captured, so
 the dashboard can answer the only question that matters at standup: *what do I
 fix first?*
 
-Output is clamped to 0–100. The weighting is deliberately simple and explainable
-— I'd rather defend a transparent model to an auditor than ship a black box.
+Output is clamped to 0-100. The weighting is deliberately simple and explainable.
+I'd rather defend a transparent model to an auditor than ship a black box.
 """
 from __future__ import annotations
 
@@ -61,7 +61,7 @@ def _age_bonus(first_seen: str, now: datetime) -> int:
 
 
 def score(finding: Finding, now: datetime = None) -> int:
-    """Compute the 0–100 risk score for a finding."""
+    """Compute the 0-100 risk score for a finding."""
     if now is None:
         now = datetime.now(timezone.utc)
 

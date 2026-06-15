@@ -1,6 +1,6 @@
 # Résumé bullets
 
-Bullets describing CloudRiskIQ. I keep these honest — only what's actually built.
+Bullets describing CloudRiskIQ. I keep these honest: only what's actually built.
 
 ## Current (everything below is implemented and tested)
 
@@ -9,14 +9,14 @@ Bullets describing CloudRiskIQ. I keep these honest — only what's actually bui
   endpoint, and GitHub into one risk-scored, control-mapped view.
 - Designed a transparent **risk-scoring engine** that adjusts raw severity by
   context (public exposure, asset criticality, exploit signal, compliance scope,
-  age) to produce a defensible 0–100 prioritization — the same triage discipline
+  age) to produce a defensible 0-100 prioritization, the same triage discipline
   I used to remediate 450+ SOX findings.
 - Implemented **control mapping to NIST CSF 2.0, CIS Controls v8, PCI-DSS v4.0,
   SOX ITGC, and FISMA / NIST 800-53**, scope-aware so regulatory controls attach
   only to in-scope findings.
 - Wrote a Python **evidence-collection exporter** that generates timestamped,
   deterministic audit packs (JSON + Markdown) mapping each finding to its
-  controls — automating what I used to assemble by hand during SOX/PCI/FISMA
+  controls, automating what I used to assemble by hand during SOX/PCI/FISMA
   audits.
 - Built source-specific **ingestion adapters** that normalize heterogeneous
   findings into a common model behind one interface, so adding a source is one
@@ -34,5 +34,5 @@ Bullets describing CloudRiskIQ. I keep these honest — only what's actually bui
 ## Phrasing tips (note to self)
 
 - Lead with the verb and the impact, not the tech list.
-- Tie each bullet back to real audit experience — that's what makes it mine.
+- Tie each bullet back to real audit experience; that's what makes it mine.
 - Quantify where it's true (5 frameworks, 4 sources, 24 tests).

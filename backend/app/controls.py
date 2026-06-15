@@ -4,15 +4,15 @@ This is the piece that turns a pile of technical findings into something I can
 put in front of an auditor. Every finding is classified into a `Category` by its
 adapter; here I map each category to the controls it touches across:
 
-  * **NIST CSF 2.0** and **CIS Controls v8** — applied to everything, since they're
+  * **NIST CSF 2.0** and **CIS Controls v8**, applied to everything, since they're
     the hardening baseline I work from regardless of regime.
-  * **PCI-DSS v4.0**, **SOX ITGC**, and **FISMA / NIST SP 800-53 Rev 5** — applied
+  * **PCI-DSS v4.0**, **SOX ITGC**, and **FISMA / NIST SP 800-53 Rev 5**, applied
     only when the finding is tagged in that compliance scope, so a PCI control
     doesn't show up against a box that never touches cardholder data.
 
 The mapping is intentionally a readable lookup table, not magic. When I sat as the
 primary contact for SOX/PCI/FISMA audits, the questions were always "which control
-does this map to, and show me the evidence" — so that traceability is the whole
+does this map to, and show me the evidence", so that traceability is the whole
 point of this module.
 """
 from __future__ import annotations
@@ -77,14 +77,14 @@ _COMPLIANCE: Dict[Tuple[str, Category], List[Tuple[str, str, str]]] = {
     ("pci", Category.endpoint_protection): [("PCI-DSS v4.0", "5.2", "Deploy and maintain anti-malware solutions")],
     ("pci", Category.change_management): [("PCI-DSS v4.0", "6.5", "Manage changes to system components")],
     # ---- SOX ITGC ----
-    ("sox", Category.identity_access): [("SOX ITGC", "AC", "Access to Programs and Data — logical access controls")],
-    ("sox", Category.change_management): [("SOX ITGC", "CM", "Change Management — authorized, tested changes")],
-    ("sox", Category.logging_monitoring): [("SOX ITGC", "CO", "Computer Operations — monitoring and logging")],
-    ("sox", Category.secure_config): [("SOX ITGC", "AC", "Access to Programs and Data — secure configuration")],
-    ("sox", Category.encryption): [("SOX ITGC", "AC", "Access to Programs and Data — data protection")],
-    ("sox", Category.secrets_exposure): [("SOX ITGC", "AC", "Access to Programs and Data — credential protection")],
-    ("sox", Category.public_exposure): [("SOX ITGC", "AC", "Access to Programs and Data — network exposure")],
-    ("sox", Category.vulnerability_mgmt): [("SOX ITGC", "CO", "Computer Operations — patch and vulnerability mgmt")],
+    ("sox", Category.identity_access): [("SOX ITGC", "AC", "Access to Programs and Data: logical access controls")],
+    ("sox", Category.change_management): [("SOX ITGC", "CM", "Change Management: authorized, tested changes")],
+    ("sox", Category.logging_monitoring): [("SOX ITGC", "CO", "Computer Operations: monitoring and logging")],
+    ("sox", Category.secure_config): [("SOX ITGC", "AC", "Access to Programs and Data: secure configuration")],
+    ("sox", Category.encryption): [("SOX ITGC", "AC", "Access to Programs and Data: data protection")],
+    ("sox", Category.secrets_exposure): [("SOX ITGC", "AC", "Access to Programs and Data: credential protection")],
+    ("sox", Category.public_exposure): [("SOX ITGC", "AC", "Access to Programs and Data: network exposure")],
+    ("sox", Category.vulnerability_mgmt): [("SOX ITGC", "CO", "Computer Operations: patch and vulnerability mgmt")],
     # ---- FISMA / NIST SP 800-53 Rev 5 ----
     ("fisma", Category.public_exposure): [("NIST 800-53 Rev5", "SC-7", "Boundary Protection")],
     ("fisma", Category.identity_access): [("NIST 800-53 Rev5", "AC-2", "Account Management"), ("NIST 800-53 Rev5", "IA-2", "Identification and Authentication")],

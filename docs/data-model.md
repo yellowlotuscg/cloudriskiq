@@ -18,7 +18,7 @@ Every source is mapped to one common record:
 | `resource` | string | Affected resource identifier (ARN, host, repo, …). |
 | `resource_type` | string | e.g. `s3`, `iam`, `storageAccount`, `host`, `repo`. |
 | `location` | string | Region / cloud location / N/A. |
-| `risk_score` | int | 0–100, computed by the scoring engine. |
+| `risk_score` | int | 0-100, computed by the scoring engine. |
 | `status` | enum | `open` \| `acknowledged` \| `resolved` \| `suppressed`. |
 | `first_seen` | timestamptz | When the finding first appeared. |
 | `last_seen` | timestamptz | Most recent ingest that still reports it. |
@@ -46,4 +46,4 @@ criticality, age, exploitability) to produce the final `risk_score`.
 ## Why `raw` is kept
 
 Storing the original payload as `jsonb` means new fields a source adds don't
-require a migration to retain — adapters can backfill normalized columns later.
+require a migration to retain; adapters can backfill normalized columns later.

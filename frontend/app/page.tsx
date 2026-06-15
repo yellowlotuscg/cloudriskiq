@@ -211,7 +211,7 @@ export default function Home() {
           <h2 style={{ fontSize: "1.1rem" }}>
             Control coverage
             <span style={{ opacity: 0.6, fontWeight: 400, fontSize: "0.85rem" }}>
-              {"  "}— {coverage.frameworks.join(" · ")}
+              {"  "}: {coverage.frameworks.join(" · ")}
             </span>
           </h2>
           <div style={{ ...card, padding: 0, overflow: "hidden" }}>

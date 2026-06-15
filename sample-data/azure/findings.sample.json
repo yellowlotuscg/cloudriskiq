@@ -1,5 +1,5 @@
 {
-  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror Microsoft Defender for Cloud assessments and are normalized by the Azure adapter.",
+  "_note": "PLACEHOLDER synthetic data, not real findings. Shapes mirror Microsoft Defender for Cloud assessments and are normalized by the Azure adapter.",
   "source": "azure",
   "subscription_id": "00000000-0000-0000-0000-000000000000",
   "findings": [

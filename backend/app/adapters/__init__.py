@@ -1,7 +1,7 @@
 """Source ingestion adapters.
 
 Each adapter takes one source's raw payload and returns normalized `Finding`s.
-The rest of the system never sees source-specific shapes — that's the contract.
+The rest of the system never sees source-specific shapes; that's the contract.
 """
 from __future__ import annotations
 

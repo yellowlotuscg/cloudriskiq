@@ -1,7 +1,7 @@
 # Security model
 
 > Draft for the scaffold. CloudRiskIQ handles security findings, so the tool
-> itself must be handled carefully — findings data is sensitive.
+> itself must be handled carefully; findings data is sensitive.
 
 ## Data sensitivity
 
@@ -14,7 +14,7 @@ the findings list is itself a security risk.
 - No secrets in the repo. Configuration comes from environment variables; see
   [`.env.example`](../.env.example). `.env` is git-ignored.
 - Source credentials (AWS keys, Azure service principals, GitHub tokens) will be
-  injected via environment / a secrets manager — never committed.
+  injected via environment / a secrets manager, never committed.
 - The `raw` payload stored per finding may contain sensitive strings; access to
   it is restricted to authenticated API consumers.
 
@@ -34,7 +34,7 @@ the findings list is itself a security risk.
 
 - All source payloads are treated as untrusted input; adapters validate and
   normalize before persistence.
-- Use parameterized queries / an ORM — never string-build SQL from finding data.
+- Use parameterized queries / an ORM; never string-build SQL from finding data.
 
 ## Auditability
 

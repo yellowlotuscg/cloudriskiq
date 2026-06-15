@@ -1,5 +1,5 @@
 {
-  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror GitHub secret-scanning / Dependabot / code-scanning alerts and are normalized by the GitHub adapter.",
+  "_note": "PLACEHOLDER synthetic data, not real findings. Shapes mirror GitHub secret-scanning / Dependabot / code-scanning alerts and are normalized by the GitHub adapter.",
   "source": "github",
   "org": "example-org",
   "findings": [

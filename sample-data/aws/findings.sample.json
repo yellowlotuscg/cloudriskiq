@@ -1,5 +1,5 @@
 {
-  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror AWS Security Hub / Config-style output and are normalized by the AWS adapter.",
+  "_note": "PLACEHOLDER synthetic data, not real findings. Shapes mirror AWS Security Hub / Config-style output and are normalized by the AWS adapter.",
   "source": "aws",
   "account_id": "000000000000",
   "findings": [

@@ -1,7 +1,7 @@
 # sample-data
 
 **Synthetic placeholder findings** used for local development and tests. None of
-this is real data — IDs, accounts, and resources are fabricated.
+this is real data; IDs, accounts, and resources are fabricated.
 
 Each source has a `findings.sample.json` with an illustrative shape. Later tasks
 add per-source ingestion adapters that read these files, normalize them into the

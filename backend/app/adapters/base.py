@@ -36,7 +36,7 @@ def derive_criticality(*, env: str = "", data_classification: str = "", public: 
     """Map context signals onto low | medium | high asset criticality.
 
     Production + sensitive data classification or public exposure pushes an asset
-    to high; non-prod drops it to low. This mirrors how I'd triage in practice —
+    to high; non-prod drops it to low. This mirrors how I'd triage in practice:
     a prod, cardholder-data system outranks a dev sandbox every time.
     """
     env = (env or "").lower()

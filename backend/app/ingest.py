@@ -2,7 +2,7 @@
 
 This is the offline path: read each source's `findings.sample.json`, run it
 through its adapter, score it, and attach control references. No cloud creds, no
-database required — which keeps the whole thing demoable on a laptop and testable
+database required, which keeps the whole thing demoable on a laptop and testable
 in CI. Swapping the file reads for live API calls later doesn't change anything
 downstream of the adapter.
 """
@@ -45,6 +45,6 @@ def ingest(sample_dir: str) -> List[Finding]:
         adapter = adapter_cls()
         for finding in adapter.normalize(payload):
             findings.append(enrich(finding))
-    # Highest risk first — that's the order I want to fix things in.
+    # Highest risk first, that's the order I want to fix things in.
     findings.sort(key=lambda f: f.risk_score, reverse=True)
     return findings

@@ -1,6 +1,6 @@
 """CloudRiskIQ command-line tool.
 
-Same engine as the API, driven from a terminal — handy for CI, for piping into a
+Same engine as the API, driven from a terminal. Handy for CI, for piping into a
 ticketing workflow, or for generating an evidence pack on a schedule without
 standing up the web app.
 

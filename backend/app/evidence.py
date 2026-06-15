@@ -5,7 +5,7 @@ time-consuming thing was producing *evidence*: a defensible, timestamped artifac
 that says "here is the control, here is what we observed, here is the disposition."
 I automated a lot of that with Python. This module is the same idea applied to
 CloudRiskIQ's normalized findings: it turns the current state into an evidence
-pack — machine-readable JSON plus a human-readable Markdown report — that maps each
+pack: machine-readable JSON plus a human-readable Markdown report that maps each
 finding to its controls and records its status.
 
 It's deliberately read-only and deterministic so the same inputs always produce the
@@ -74,7 +74,7 @@ def render_markdown(pack: Dict) -> str:
     lines.append("")
     lines.append(f"_Generated: {pack['generated_at']}_")
     lines.append("")
-    lines.append("> Synthetic demonstration data — not a real control assessment.")
+    lines.append("> Synthetic demonstration data, not a real control assessment.")
     lines.append("")
 
     s = pack["summary"]
@@ -107,7 +107,7 @@ def render_markdown(pack: Dict) -> str:
     lines.append("| Risk | Severity | Source | Finding | Resource | Status | Controls |")
     lines.append("| ---: | --- | --- | --- | --- | --- | --- |")
     for r in pack["findings"]:
-        ctrls = ", ".join(f"{c['framework']} {c['control_id']}" for c in r["controls"]) or "—"
+        ctrls = ", ".join(f"{c['framework']} {c['control_id']}" for c in r["controls"]) or "-"
         lines.append(
             f"| {r['risk_score']} | {r['severity']} | {r['source']} | {r['title']} | "
             f"`{r['resource']}` | {r['status']} | {ctrls} |"

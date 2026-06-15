@@ -1,6 +1,8 @@
 # CloudRiskIQ
 
-I spent 11+ years on the GRC side of the house — primary technical contact for
+A case study from Yellow Lotus Consulting Group demonstrating security and compliance engineering, built on synthetic data (not client data).
+
+I spent 11+ years on the GRC side of the house. I was the primary technical contact for
 SOX, PCI-DSS, and FISMA audits, the person who had to turn a pile of scanner
 output into "here's the control, here's the evidence, here's what we're fixing
 first." CloudRiskIQ is me building the tool I always wanted during those audits.
@@ -21,12 +23,12 @@ It runs end-to-end on a laptop with **synthetic data and no cloud credentials**.
 ## What I broke / fixed / built
 
 Recruiters keep saying the same thing: skip the cert wall, show me that you
-broke something, fixed something, and built something — and show me how you
+broke something, fixed something, and built something, and show me how you
 think. So, plainly:
 
 - **Broke:** In real audits I watched teams drown in raw scanner output. A
-  console full of "HIGH" findings tells you nothing about *what to fix first* —
-  a HIGH on a public, production, cardholder-data bucket is not the same risk as
+  console full of "HIGH" findings tells you nothing about *what to fix first*.
+  A HIGH on a public, production, cardholder-data bucket is not the same risk as
   a HIGH on an internal dev box, but the scanner scores them identically. And
   when the auditor asked "which control does this map to, and show me the
   evidence," that traceability lived in someone's spreadsheet, by hand.
@@ -35,7 +37,7 @@ think. So, plainly:
   age) so the list sorts by *what actually matters*. And I built a control mapper
   that turns every technical finding into framework references automatically, so
   the "map it to a control + produce evidence" step isn't manual anymore.
-- **Built:** A working full-stack app — FastAPI backend (ingestion adapters,
+- **Built:** A working full-stack app. FastAPI backend (ingestion adapters,
   scoring, control mapping, evidence export), a Next.js dashboard, a CLI, and a
   test suite. See the full writeup in
   [docs/broke-fixed-built.md](docs/broke-fixed-built.md).
@@ -47,7 +49,7 @@ think. So, plainly:
 | In this repo | From my résumé |
 | --- | --- |
 | Control mapping to NIST CSF / CIS / PCI / SOX / FISMA | Primary contact for SOX/PCI-DSS/FISMA audits; CIS/NIST CSF hardening |
-| Risk-scoring engine that prioritizes remediation | Remediated 450+ SOX findings — prioritization was the whole game |
+| Risk-scoring engine that prioritizes remediation | Remediated 450+ SOX findings, where prioritization was the whole game |
 | Python evidence-pack generator (JSON + Markdown) | Built Python/PowerShell evidence-collection tooling for audits |
 | Normalized ingestion across AWS / Azure / GitHub / endpoint | Cloud security posture + vuln management (Qualys) across estates |
 | Git-versioned, test-covered, CI-checked code | Git-versioned auditable configs; control dashboards |
@@ -104,7 +106,7 @@ docker compose up --build
 
 | Method | Path | What it gives me |
 | --- | --- | --- |
-| `GET` | `/health` | Liveness — no dependencies, always answers |
+| `GET` | `/health` | Liveness, no dependencies, always answers |
 | `GET` | `/findings` | Prioritized findings; filter by `source`, `severity`, `status`, `min_score` |
 | `GET` | `/findings/{id}` | One finding with its full control mapping |
 | `PATCH` | `/findings/{id}` | Acknowledge / resolve / suppress |
@@ -126,7 +128,7 @@ AWS / Azure / Endpoint / GitHub  (sample-data/*.json)
   Ingestion adapters ──► normalized Finding (common model)
         │
         ▼
-  Risk scoring engine  (severity + context → 0–100)
+  Risk scoring engine  (severity + context → 0-100)
         │
         ▼
   Control mapper  (Finding.category → NIST CSF / CIS / PCI / SOX / FISMA)
@@ -160,7 +162,7 @@ cloudriskiq/
 
 ## Docs
 
-- [Plan & strategy](docs/plan.md) — goals, what it proves, roadmap
+- [Plan & strategy](docs/plan.md): goals, what it proves, roadmap
 - [What I broke / fixed / built](docs/broke-fixed-built.md)
 - [Architecture](docs/architecture.md)
 - [API](docs/api.md)

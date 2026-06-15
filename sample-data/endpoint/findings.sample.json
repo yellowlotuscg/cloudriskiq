@@ -1,5 +1,5 @@
 {
-  "_note": "PLACEHOLDER synthetic data — not real findings. Shapes mirror EDR / device-posture agent output and are normalized by the endpoint adapter.",
+  "_note": "PLACEHOLDER synthetic data, not real findings. Shapes mirror EDR / device-posture agent output and are normalized by the endpoint adapter.",
   "source": "endpoint",
   "findings": [
     {

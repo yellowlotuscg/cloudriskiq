@@ -5,7 +5,7 @@
 ## Goal
 
 Aggregate security findings from multiple sources into one normalized,
-risk-scored, queryable view — so a small team can see "what should I fix first?"
+risk-scored, queryable view, so a small team can see "what should I fix first?"
 across cloud, endpoint, and source control without logging into four consoles.
 
 ## High-level components
@@ -43,7 +43,7 @@ across cloud, endpoint, and source control without logging into four consoles.
 | --- | --- | --- |
 | **FastAPI backend** | HTTP API: findings, summary, controls, evidence | ✅ implemented |
 | **Ingestion adapters** | Parse source findings → common model | ✅ aws, azure, github, endpoint |
-| **Risk scoring engine** | Combine severity + context into a 0–100 score | ✅ implemented |
+| **Risk scoring engine** | Combine severity + context into a 0-100 score | ✅ implemented |
 | **Control mapper** | Finding category → NIST CSF / CIS / PCI / SOX / FISMA | ✅ implemented |
 | **Evidence exporter** | Audit pack (JSON + Markdown) from live state | ✅ implemented |
 | **In-memory store** | Hold findings + dashboard/coverage rollups | ✅ implemented |
@@ -54,7 +54,7 @@ across cloud, endpoint, and source control without logging into four consoles.
 ## Runtime topology
 
 - Local dev: `uvicorn` for the API, `next dev` for the UI, optional local Postgres.
-- Compose: three services — `db`, `backend`, `frontend` — on one network.
+- Compose: three services (`db`, `backend`, `frontend`) on one network.
 - `/health` deliberately has **no** external dependencies so liveness checks
   succeed even when the database is down.
 
