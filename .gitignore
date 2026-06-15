@@ -11,6 +11,9 @@ node_modules/
 out/
 npm-debug.log*
 
+# Generated evidence packs
+evidence-out/
+
 # Env & secrets
 .env
 .env.local

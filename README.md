@@ -1,64 +1,94 @@
 # CloudRiskIQ
 
-A unified security-findings aggregator. CloudRiskIQ ingests findings from
-multiple sources — **AWS**, **Azure**, **endpoint** agents, and **GitHub** —
-normalizes them into a common model, scores risk, and surfaces prioritized
-issues through an API and a web dashboard.
+I spent 11+ years on the GRC side of the house — primary technical contact for
+SOX, PCI-DSS, and FISMA audits, the person who had to turn a pile of scanner
+output into "here's the control, here's the evidence, here's what we're fixing
+first." CloudRiskIQ is me building the tool I always wanted during those audits.
 
-> **Status:** Task 1 scaffold. The backend exposes a working `/health` endpoint
-> with a passing test. Ingestion, scoring, persistence, and the dashboard land
-> in later tasks. The app is intended to stay runnable after every feature.
+It ingests security findings from **AWS, Azure, endpoints, and GitHub**,
+normalizes them into one model, scores each one by *risk* (not just raw
+severity), and maps every finding to the controls it touches across **NIST CSF
+2.0, CIS Controls v8, PCI-DSS v4.0, SOX ITGC, and FISMA / NIST 800-53**. Then it
+generates an audit-ready evidence pack from the live state.
 
-## Tech stack
+It runs end-to-end on a laptop with **synthetic data and no cloud credentials**.
 
-| Layer | Choice |
+> **Heads up:** all sample findings are synthetic. No real accounts, resources,
+> or secrets are in this repo.
+
+---
+
+## What I broke / fixed / built
+
+Recruiters keep saying the same thing: skip the cert wall, show me that you
+broke something, fixed something, and built something — and show me how you
+think. So, plainly:
+
+- **Broke:** In real audits I watched teams drown in raw scanner output. A
+  console full of "HIGH" findings tells you nothing about *what to fix first* —
+  a HIGH on a public, production, cardholder-data bucket is not the same risk as
+  a HIGH on an internal dev box, but the scanner scores them identically. And
+  when the auditor asked "which control does this map to, and show me the
+  evidence," that traceability lived in someone's spreadsheet, by hand.
+- **Fixed:** I built a transparent risk-scoring engine that adjusts severity by
+  context (public exposure, asset criticality, exploit signal, compliance scope,
+  age) so the list sorts by *what actually matters*. And I built a control mapper
+  that turns every technical finding into framework references automatically, so
+  the "map it to a control + produce evidence" step isn't manual anymore.
+- **Built:** A working full-stack app — FastAPI backend (ingestion adapters,
+  scoring, control mapping, evidence export), a Next.js dashboard, a CLI, and a
+  test suite. See the full writeup in
+  [docs/broke-fixed-built.md](docs/broke-fixed-built.md).
+
+---
+
+## What it demonstrates (mapped to my background)
+
+| In this repo | From my résumé |
 | --- | --- |
-| Backend API | FastAPI (Python 3.12) |
-| Frontend | Next.js / React (App Router, TypeScript) |
-| Database | PostgreSQL 16 |
-| Orchestration | Docker Compose |
-| CI | GitHub Actions |
+| Control mapping to NIST CSF / CIS / PCI / SOX / FISMA | Primary contact for SOX/PCI-DSS/FISMA audits; CIS/NIST CSF hardening |
+| Risk-scoring engine that prioritizes remediation | Remediated 450+ SOX findings — prioritization was the whole game |
+| Python evidence-pack generator (JSON + Markdown) | Built Python/PowerShell evidence-collection tooling for audits |
+| Normalized ingestion across AWS / Azure / GitHub / endpoint | Cloud security posture + vuln management (Qualys) across estates |
+| Git-versioned, test-covered, CI-checked code | Git-versioned auditable configs; control dashboards |
 
-## Repository layout
-
-```
-cloudriskiq/
-├── backend/            # FastAPI service (app/, tests/, Dockerfile, requirements.txt)
-├── frontend/           # Next.js app (app/, Dockerfile, package.json)
-├── sample-data/        # placeholder findings: aws/ azure/ endpoint/ github/
-├── docs/               # architecture, data-model, api, security-model, resume-bullets
-├── .github/workflows/  # backend-tests, frontend-tests
-├── docker-compose.yml  # db + backend + frontend
-├── .env.example
-└── README.md
-```
+---
 
 ## Quick start
 
-### Backend only (no Docker needed)
+### Backend + CLI (no Docker, no database)
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate   # optional
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+
+# Run the API
 uvicorn app.main:app --reload --port 8000
+#   http://localhost:8000/docs   (Swagger UI)
+
+# …or drive the same engine from the CLI
+python -m app.cli ingest                 # load + score, print a summary
+python -m app.cli report                 # prioritized findings table
+python -m app.cli evidence --out ./out    # write JSON + Markdown evidence pack
 ```
 
-Verify the health endpoint:
+The app hydrates from `sample-data/` at startup, so every endpoint returns real
+(synthetic) findings immediately.
+
+### Frontend dashboard
 
 ```bash
-curl http://localhost:8000/health
-# {"status":"ok","service":"cloudriskiq-api","version":"0.1.0","environment":"development"}
+cd frontend
+npm install
+npm run dev          # http://localhost:3000  (expects the API on :8000)
 ```
 
-Interactive API docs: <http://localhost:8000/docs>
-
-### Run the backend tests
+### Run the tests
 
 ```bash
-cd backend
-pip install -r requirements.txt
-python -m pytest -q          # includes the /health test
+cd backend && source .venv/bin/activate
+python -m pytest -q          # 24 tests: scoring, adapters, controls, evidence, API
 ```
 
 ### Full stack with Docker Compose
@@ -68,30 +98,72 @@ cp .env.example .env
 docker compose up --build
 ```
 
-- Backend → <http://localhost:8000> (health at `/health`)
-- Frontend → <http://localhost:3000> (shows live backend status)
-- Postgres → `localhost:5432`
+---
 
-### Frontend only
+## The endpoints I actually use
 
-```bash
-cd frontend
-npm install
-npm run dev          # http://localhost:3000
+| Method | Path | What it gives me |
+| --- | --- | --- |
+| `GET` | `/health` | Liveness — no dependencies, always answers |
+| `GET` | `/findings` | Prioritized findings; filter by `source`, `severity`, `status`, `min_score` |
+| `GET` | `/findings/{id}` | One finding with its full control mapping |
+| `PATCH` | `/findings/{id}` | Acknowledge / resolve / suppress |
+| `GET` | `/summary` | Dashboard rollups (by source / severity / status / category) |
+| `GET` | `/controls` | Coverage: every finding rolled up per control, per framework |
+| `GET` | `/evidence` | A structured control evidence pack |
+| `POST` | `/ingest` | Re-run ingestion from `sample-data/` |
+
+Full contract: [docs/api.md](docs/api.md).
+
+---
+
+## How it fits together
+
+```
+AWS / Azure / Endpoint / GitHub  (sample-data/*.json)
+        │
+        ▼  one adapter per source
+  Ingestion adapters ──► normalized Finding (common model)
+        │
+        ▼
+  Risk scoring engine  (severity + context → 0–100)
+        │
+        ▼
+  Control mapper  (Finding.category → NIST CSF / CIS / PCI / SOX / FISMA)
+        │
+        ├──► FastAPI  ──►  Next.js dashboard
+        └──► Evidence exporter  (JSON + Markdown audit pack)
 ```
 
-## Documentation
+More detail and the design decisions are in
+[docs/architecture.md](docs/architecture.md).
 
+## Repository layout
+
+```
+cloudriskiq/
+├── backend/app/
+│   ├── adapters/     # aws, azure, github, endpoint → normalized Finding
+│   ├── models.py     # the common Finding model + API shapes
+│   ├── scoring.py    # transparent risk-scoring engine
+│   ├── controls.py   # NIST CSF / CIS / PCI / SOX / FISMA mapping
+│   ├── ingest.py     # sample-data → normalized + scored + mapped
+│   ├── store.py      # in-memory store + dashboard/coverage rollups
+│   ├── evidence.py   # audit evidence pack (JSON + Markdown)
+│   ├── cli.py        # ingest / report / evidence from the terminal
+│   └── main.py       # FastAPI app
+├── frontend/         # Next.js dashboard
+├── sample-data/      # synthetic findings per source
+├── docs/             # architecture, plan & strategy, broke-fixed-built, ...
+└── docker-compose.yml
+```
+
+## Docs
+
+- [Plan & strategy](docs/plan.md) — goals, what it proves, roadmap
+- [What I broke / fixed / built](docs/broke-fixed-built.md)
 - [Architecture](docs/architecture.md)
-- [Data model](docs/data-model.md)
 - [API](docs/api.md)
+- [Data model](docs/data-model.md)
 - [Security model](docs/security-model.md)
 - [Résumé bullets](docs/resume-bullets.md)
-
-## Roadmap (high level)
-
-1. ✅ Scaffold: health endpoint, compose, CI, docs, sample-data placeholders.
-2. Define the normalized finding model + Postgres schema and migrations.
-3. Ingestion adapters per source (AWS, Azure, endpoint, GitHub) reading `sample-data/`.
-4. Risk scoring + prioritized findings API.
-5. Dashboard views (findings list, filters, severity, source breakdown).

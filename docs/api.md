@@ -3,7 +3,8 @@
 Base URL (local): `http://localhost:8000`
 Interactive docs: `/docs` (Swagger UI), `/redoc`.
 
-## Implemented
+All endpoints below are implemented. The findings store is hydrated from
+`sample-data/` at startup, so every endpoint returns data with no setup.
 
 ### `GET /health`
 
@@ -30,17 +31,17 @@ Service metadata.
 { "name": "CloudRiskIQ API", "version": "0.1.0", "docs": "/docs" }
 ```
 
-## Planned
-
-These are not implemented yet — listed so the contract is visible early.
+## Findings, rollups, and compliance
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| `GET` | `/findings` | List findings; filters: `source`, `severity`, `status`, `min_score`. |
-| `GET` | `/findings/{id}` | Single finding with full detail and history. |
-| `PATCH` | `/findings/{id}` | Update `status` (acknowledge / resolve / suppress). |
-| `POST` | `/ingest/{source}` | Trigger ingestion for a source (reads sample-data initially). |
-| `GET` | `/stats` | Counts by source / severity / status for the dashboard. |
+| `GET` | `/findings` | List findings (highest risk first); filters: `source`, `severity`, `status`, `min_score`. |
+| `GET` | `/findings/{id}` | Single finding with its full control mapping. |
+| `PATCH` | `/findings/{id}?status=...` | Update `status` (acknowledge / resolve / suppress). |
+| `GET` | `/summary` | Counts by source / severity / status / category, plus avg risk and top findings. |
+| `GET` | `/controls` | Control coverage: findings rolled up per NIST CSF / CIS / PCI / SOX / FISMA control. |
+| `GET` | `/evidence` | Structured control evidence pack (also available as Markdown via the CLI). |
+| `POST` | `/ingest` | Re-run ingestion from `sample-data/` (re-reads, re-scores, re-maps). |
 
 ### Anticipated `/findings` response shape
 

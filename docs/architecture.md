@@ -26,21 +26,30 @@ across cloud, endpoint, and source control without logging into four consoles.
                          │   Risk scoring engine    │  severity + context → score
                          └────────────┬─────────────┘
                                       ▼
+                         ┌─────────────────────────┐
+                         │   Control mapper         │  category → NIST/CIS/PCI/SOX/FISMA
+                         └────────────┬─────────────┘
+                                      ▼
    ┌──────────────┐        ┌─────────────────────────┐        ┌──────────────┐
-   │  PostgreSQL  │◀──────▶│      FastAPI backend     │◀──────▶│  Next.js UI  │
-   │  (findings)  │        │  /health, /findings, ... │        │  dashboard   │
-   └──────────────┘        └─────────────────────────┘        └──────────────┘
+   │  Evidence    │◀──────▶│      FastAPI backend     │◀──────▶│  Next.js UI  │
+   │  exporter    │        │  /findings /controls ... │        │  dashboard   │
+   │ (JSON + MD)  │        └─────────────────────────┘        └──────────────┘
+   └──────────────┘          (in-memory store; Postgres provisioned for later)
 ```
 
 ## Components
 
 | Component | Responsibility | Status |
 | --- | --- | --- |
-| **FastAPI backend** | HTTP API, scoring, persistence access | `/health` live |
-| **Ingestion adapters** | Pull/parse source findings → common model | planned |
-| **Risk scoring engine** | Combine severity + context into a score | planned |
-| **PostgreSQL** | Store normalized findings + history | provisioned in compose |
-| **Next.js frontend** | Dashboard: list, filter, prioritize | skeleton |
+| **FastAPI backend** | HTTP API: findings, summary, controls, evidence | ✅ implemented |
+| **Ingestion adapters** | Parse source findings → common model | ✅ aws, azure, github, endpoint |
+| **Risk scoring engine** | Combine severity + context into a 0–100 score | ✅ implemented |
+| **Control mapper** | Finding category → NIST CSF / CIS / PCI / SOX / FISMA | ✅ implemented |
+| **Evidence exporter** | Audit pack (JSON + Markdown) from live state | ✅ implemented |
+| **In-memory store** | Hold findings + dashboard/coverage rollups | ✅ implemented |
+| **CLI** | `ingest` / `report` / `evidence` from the terminal | ✅ implemented |
+| **Next.js frontend** | Dashboard: KPIs, findings, control coverage | ✅ implemented |
+| **PostgreSQL** | Persist normalized findings + history | provisioned in compose; not yet wired |
 
 ## Runtime topology
 
