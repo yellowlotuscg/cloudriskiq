@@ -1,6 +1,6 @@
 # CloudRiskIQ
 
-A case study from Yellow Lotus Consulting Group demonstrating security and compliance engineering, built on synthetic data (not client data).
+A case study from [Yellow Lotus Consulting Group](https://yellowlotuscg.com) demonstrating security and compliance engineering, built on synthetic data (not client data).
 
 I spent 11+ years on the GRC side of the house. I was the primary technical contact for
 SOX, PCI-DSS, and FISMA audits, the person who had to turn a pile of scanner
