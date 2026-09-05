@@ -2,7 +2,7 @@
 
 A case study from [Yellow Lotus Consulting Group](https://yellowlotuscg.com) demonstrating security and compliance engineering, built on synthetic data (not client data).
 
-I spent 11+ years on the GRC side of the house. I was the primary technical contact for
+My background spans IT operations, security and audit support. I was the primary technical contact for
 SOX, PCI-DSS, and FISMA audits, the person who had to turn a pile of scanner
 output into "here's the control, here's the evidence, here's what we're fixing
 first." CloudRiskIQ is me building the tool I always wanted during those audits.
@@ -11,7 +11,7 @@ It ingests security findings from **AWS, Azure, endpoints, and GitHub**,
 normalizes them into one model, scores each one by *risk* (not just raw
 severity), and maps every finding to the controls it touches across **NIST CSF
 2.0, CIS Controls v8, PCI-DSS v4.0, SOX ITGC, and FISMA / NIST 800-53**. Then it
-generates an audit-ready evidence pack from the live state.
+generates structured evidence exports from the demo state for human review. Control mappings are illustrative and require validation against the applicable standard and organizational scope; this tool does not certify compliance.
 
 It runs end-to-end on a laptop with **synthetic data and no cloud credentials**.
 
