@@ -15,13 +15,12 @@ the findings list is itself a security risk.
   [`.env.example`](../.env.example). `.env` is git-ignored.
 - Source credentials (AWS keys, Azure service principals, GitHub tokens) will be
   injected via environment / a secrets manager, never committed.
-- The `raw` payload stored per finding may contain sensitive strings; access to
-  it is restricted to authenticated API consumers.
+- The `raw` payload on a finding may contain sensitive strings. The API has no authentication, so `GET /findings` and `GET /findings/{id}` return `raw` to anyone who can reach the process. Do not point this demo at real findings.
 
 ## AuthN / AuthZ (planned)
 
 - API authentication via bearer tokens (service-to-service) and/or session auth
-  for the dashboard. Not yet implemented in the scaffold.
+  for the dashboard. Not implemented.
 - Role-based access: read-only viewer vs. responder (can change finding status).
 
 ## Network & transport
@@ -32,14 +31,12 @@ the findings list is itself a security risk.
 
 ## Input handling
 
-- All source payloads are treated as untrusted input; adapters validate and
-  normalize before persistence.
+- All source payloads are treated as untrusted input. Adapters normalize them before they go into the in-memory store.
 - Use parameterized queries / an ORM; never string-build SQL from finding data.
 
 ## Auditability
 
-- A `FindingEvent` history (see [data-model](data-model.md)) records state
-  changes for an audit trail of who acknowledged/resolved what and when.
+- A `FindingEvent` history is not built. `PATCH /findings/{id}` overwrites status in memory and keeps no record of who changed it. See [data-model](data-model.md).
 
 ## Out of scope (for now)
 

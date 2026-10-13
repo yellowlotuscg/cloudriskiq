@@ -6,7 +6,7 @@ standing up the web app.
 
     python -m app.cli ingest                 # load + score, print a summary
     python -m app.cli report                 # print the prioritized findings table
-    python -m app.cli evidence --out ./out    # write JSON + Markdown evidence pack
+    python -m app.cli evidence                # write JSON + Markdown under ./evidence-out
 """
 from __future__ import annotations
 

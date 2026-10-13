@@ -3,8 +3,7 @@
 Base URL (local): `http://localhost:8000`
 Interactive docs: `/docs` (Swagger UI), `/redoc`.
 
-All endpoints below are implemented. The findings store is hydrated from
-`sample-data/` at startup, so every endpoint returns data with no setup.
+All endpoints below are implemented. Run from a checkout of this repo and the API loads `sample-data/` at startup. The backend container does not include that directory, so those routes come back empty there. See the README.
 
 ### `GET /health`
 
@@ -18,7 +17,7 @@ curl http://localhost:8000/health
 {
   "status": "ok",
   "service": "cloudriskiq-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "environment": "development"
 }
 ```
@@ -28,8 +27,15 @@ curl http://localhost:8000/health
 Service metadata.
 
 ```json
-{ "name": "CloudRiskIQ API", "version": "0.1.0", "docs": "/docs" }
+{
+  "name": "CloudRiskIQ API",
+  "version": "0.2.0",
+  "docs": "/docs",
+  "findings_loaded": 19
+}
 ```
+
+`findings_loaded` is how many findings ingest placed in memory at startup. With the sample files in this repo, that count is 19.
 
 ## Findings, rollups, and compliance
 
@@ -43,7 +49,9 @@ Service metadata.
 | `GET` | `/evidence` | Structured control evidence pack (also available as Markdown via the CLI). |
 | `POST` | `/ingest` | Re-run ingestion from `sample-data/` (re-reads, re-scores, re-maps). |
 
-### Anticipated `/findings` response shape
+### `GET /findings` response shape
+
+Each item is a full `Finding`. The list below is shortened. `risk_score` is computed at ingest from severity, context, and age, so the number changes as a finding gets older. Do not treat a sample number as a fixture.
 
 ```json
 {
@@ -53,10 +61,9 @@ Service metadata.
       "source": "aws",
       "title": "S3 bucket allows public read",
       "severity": "high",
-      "risk_score": 80,
       "status": "open",
-      "resource": "arn:aws:s3:::example-public-bucket",
-      "first_seen": "2026-06-01T00:00:00Z"
+      "resource": "arn:aws:s3:::acme-prod-customer-exports",
+      "first_seen": "2026-04-18T00:00:00Z"
     }
   ],
   "total": 1
@@ -65,7 +72,7 @@ Service metadata.
 
 ## Conventions
 
-- JSON request/response bodies.
+- JSON response bodies. `PATCH /findings/{id}` takes `status` as a query parameter, not a JSON body.
 - Severities: `low` · `medium` · `high` · `critical`.
 - Timestamps are ISO-8601 UTC (`...Z`).
 - Errors use standard HTTP status codes with a `{"detail": "..."}` body (FastAPI default).
