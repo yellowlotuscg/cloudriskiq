@@ -54,7 +54,7 @@ across cloud, endpoint, and source control without logging into four consoles.
 ## Runtime topology
 
 - Local dev: `uvicorn` for the API and `next dev` for the UI. Postgres is not required. The API loads `sample-data/` from the repo root.
-- Compose: three services (`db`, `backend`, `frontend`) on one network. `db` starts, and the API does not connect to it. The backend image is built from `backend/` only, so it does not contain `sample-data/` unless you mount that directory and set `SAMPLE_DATA_DIR`. See the README.
+- Compose: three services (`db`, `backend`, `frontend`) on one network. `db` starts, and the API does not connect to it. The backend image is built from `backend/` only. Compose mounts `./sample-data` at `/sample-data` and sets `SAMPLE_DATA_DIR`, so the API loads the sample findings. See the README.
 - `/health` deliberately has **no** external dependencies so liveness checks
   succeed even when the database is down.
 

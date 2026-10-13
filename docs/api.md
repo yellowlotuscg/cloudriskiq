@@ -3,7 +3,7 @@
 Base URL (local): `http://localhost:8000`
 Interactive docs: `/docs` (Swagger UI), `/redoc`.
 
-All endpoints below are implemented. Run from a checkout of this repo and the API loads `sample-data/` at startup. The backend container does not include that directory, so those routes come back empty there. See the README.
+All endpoints below are implemented. Run from a checkout of this repo and the API loads `sample-data/` at startup. Docker Compose mounts that directory into the backend container at `/sample-data`. See the README.
 
 ### `GET /health`
 

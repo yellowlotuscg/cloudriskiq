@@ -21,6 +21,10 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-cloudriskiq}:${POSTGRES_PASSWORD:-cloudriskiq}@db:5432/${POSTGRES_DB:-cloudriskiq}
       ENVIRONMENT: ${ENVIRONMENT:-development}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      # The image is built from backend/ only. This mount is what the API reads.
+      SAMPLE_DATA_DIR: /sample-data
+    volumes:
+      - ./sample-data:/sample-data:ro
     ports:
       - "8000:8000"
     depends_on:

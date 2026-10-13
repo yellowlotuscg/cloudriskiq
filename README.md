@@ -6,7 +6,7 @@ My background is IT operations, security, and audit support. I was the primary t
 
 It ingests security findings from **AWS, Azure, endpoints, and GitHub**, normalizes them into one model, scores each one by *risk* (not just raw severity), and maps every finding to the controls it touches across **NIST CSF 2.0, CIS Controls v8, PCI-DSS v4.0, SOX ITGC, and FISMA / NIST 800-53**. It writes a structured evidence pack from the demo state for a person to review. Control mappings are illustrative and require validation against the applicable standard and organizational scope; this tool does not certify compliance.
 
-You can run the API, the CLI, and the dashboard on a laptop from `sample-data/`. No cloud credentials, and no database. Docker Compose starts the processes, but the API container does not see those files. See [Full stack with Docker Compose](#full-stack-with-docker-compose).
+You can run the API, the CLI, and the dashboard on a laptop from `sample-data/`. No cloud credentials, and no database. Docker Compose mounts those same files into the API container. See [Full stack with Docker Compose](#full-stack-with-docker-compose).
 
 > **Heads up:** all sample findings are synthetic. No real accounts, resources, or secrets are in this repo.
 
@@ -84,7 +84,7 @@ Open http://localhost:3000. The page calls `NEXT_PUBLIC_API_BASE_URL`, which def
 
 `npm run dev` reads that variable from the environment when the dev server starts. `npm run build` bakes it into the client bundle. Setting it only on an already-built container does not change the URL the browser calls.
 
-`npm run lint` is not set up. There is no ESLint config, and `next lint` stops to ask how to create one. CI does not run it. There is no frontend test script.
+`npm run lint` runs ESLint with `frontend/.eslintrc.json` (`next/core-web-vitals`). It does not start a setup prompt. CI does not run it. There is no frontend test script.
 
 ### Run the tests
 
@@ -110,24 +110,12 @@ docker compose up --build
 | Service | Published port | What it does today |
 | --- | --- | --- |
 | `db` | 5432 | Postgres 16. The API does not connect to it. |
-| `backend` | 8000 | FastAPI. `/health` answers. The findings list is empty. |
+| `backend` | 8000 | FastAPI. Loads the mounted sample findings into memory. |
 | `frontend` | 3000 | Next.js dashboard. The browser calls `http://localhost:8000`. |
 
 `DATABASE_URL` is read in `backend/app/config.py` and never used. The store is in memory.
 
-The backend image is built from `backend/` only, so `sample-data/` is not in it. The default data path is two directories above `app/config.py`: the repo's `sample-data/` on a laptop, and `/sample-data` in the container. That container path does not exist, so ingest loads nothing.
-
-To feed the sample files in, add a `volumes` block on the `backend` service and add `SAMPLE_DATA_DIR` to the `environment` block that is already there. This is not in `docker-compose.yml` today. Do not add a second `environment` key. Compose keeps the later one and drops the earlier one.
-
-```yaml
-    volumes:
-      - ./sample-data:/sample-data:ro
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-cloudriskiq}:${POSTGRES_PASSWORD:-cloudriskiq}@db:5432/${POSTGRES_DB:-cloudriskiq}
-      ENVIRONMENT: ${ENVIRONMENT:-development}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
-      SAMPLE_DATA_DIR: /sample-data
-```
+The backend image is still built from `backend/` only, so the sample files are not copied into it. `docker-compose.yml` mounts `./sample-data` on `/sample-data` (read-only) and sets `SAMPLE_DATA_DIR=/sample-data`. That is the directory the API reads at startup, so the findings list is the sample set. A plain `docker run` of the backend image, without that mount, still has an empty list.
 
 The frontend image runs `npm run build` without `NEXT_PUBLIC_API_BASE_URL`, so the bundle keeps the default `http://localhost:8000`. That is the right host port for a browser on your machine. The Compose `environment` entry does not change a bundle that was already built.
 
