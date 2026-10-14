@@ -1,6 +1,6 @@
 # Architecture
 
-> Initial draft for the Task 1 scaffold. Expect refinement as features land.
+> How the running app is put together. Postgres is started by Compose and not used by the API.
 
 ## Goal
 
@@ -53,8 +53,8 @@ across cloud, endpoint, and source control without logging into four consoles.
 
 ## Runtime topology
 
-- Local dev: `uvicorn` for the API, `next dev` for the UI, optional local Postgres.
-- Compose: three services (`db`, `backend`, `frontend`) on one network.
+- Local dev: `uvicorn` for the API and `next dev` for the UI. Postgres is not required. The API loads `sample-data/` from the repo root.
+- Compose: three services (`db`, `backend`, `frontend`) on one network. `db` starts, and the API does not connect to it. The backend image is built from `backend/` only. Compose mounts `./sample-data` at `/sample-data` and sets `SAMPLE_DATA_DIR`, so the API loads the sample findings. See the README.
 - `/health` deliberately has **no** external dependencies so liveness checks
   succeed even when the database is down.
 
